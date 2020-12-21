@@ -9,19 +9,35 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace RPG_Smartify.Controllers
-{
+{/// <summary>
+/// Auth Controller
+/// </summary>
     [ApiController]
     [Route("[Controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository irepo;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="irepo"></param>
         public AuthController(IAuthRepository irepo)
         {
             this.irepo = irepo;
         }
 
+        /// <summary>
+        /// Register new User
+        /// </summary>
+        /// <param name="user">user values</param>
+        /// <returns></returns>
         [HttpPost("Register")]
+        [ProducesResponseType(201, Type = typeof(int))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Register(UserRegisterDTO user)
         {
            ResponseData<int> result=await irepo.Register(new User { Username = user.Username }, user.Password);
@@ -34,7 +50,17 @@ namespace RPG_Smartify.Controllers
 
         }
 
+        /// <summary>
+        /// Login user
+        /// </summary>
+        /// <param name="user">user values</param>
+        /// <returns></returns>
         [HttpPost("Login")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Login(UserLoginDTO user)
         {
             ResponseData<string> result = await irepo.Login(user.Username, user.Password);

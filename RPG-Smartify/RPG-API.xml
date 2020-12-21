@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPG-Smartify</name>
+    </assembly>
+    <members>
+        <member name="T:RPG_Smartify.Controllers.AuthController">
+            <summary>
+            Auth Controller
+            </summary>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.AuthController.#ctor(RPG_Smartify.Data.IAuthRepository)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="irepo"></param>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.AuthController.Register(RPG_Smartify.DTO.Register.UserRegisterDTO)">
+            <summary>
+            Register new User
+            </summary>
+            <param name="user">user values</param>
+            <returns></returns>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.AuthController.Login(RPG_Smartify.DTO.Auth.UserLoginDTO)">
+            <summary>
+            Login user
+            </summary>
+            <param name="user">user values</param>
+            <returns></returns>
+        </member>
+        <member name="T:RPG_Smartify.Controllers.CharacterController">
+            <summary>
+            Controller for characters
+            </summary>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.#ctor(RPG_Smartify.Service.CharacterService.ICharacterService)">
+            <summary>
+            Constructor default
+            </summary>
+            <param name="icService"> the interface for Character Service</param>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.GetAll">
+            <summary>
+            get all characters
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.GetById(System.Int32)">
+            <summary>
+            Get all characters based on user and character id
+            </summary>
+            <param name="id">the id of the character</param>
+            <returns></returns>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.addCharacter(RPG_Smartify.DTO.Character.AddCharacterDTO)">
+            <summary>
+            add a new character
+            </summary>
+            <param name="newChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.updateCharacter(RPG_Smartify.DTO.Character.updateCharacterDTO)">
+            <summary>
+            update a character
+            </summary>
+            <param name="newChar">the new Character</param>
+            <returns></returns>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterController.deleteCharacter(System.Int32)">
+            <summary>
+            Delete a character
+            </summary>
+            <param name="id">the id of the character</param>
+            <returns></returns>
+        </member>
+        <member name="T:RPG_Smartify.Controllers.CharacterSkillController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterSkillController.#ctor(RPG_Smartify.Service.CharacterSkill.ICharacterSkillRepo)">
+            <summary>
+            
+            </summary>
+            <param name="icservice"></param>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.CharacterSkillController.AddCharacterSkill(RPG_Smartify.DTO.CharacterSkill.characterskillDTO)">
+            <summary>
+            add skills to a character
+            </summary>
+            <param name="characterskillDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RPG_Smartify.Controllers.WeaponController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.WeaponController.#ctor(RPG_Smartify.Service.WeaponService.IWeaponRepo)">
+            <summary>
+            
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:RPG_Smartify.Controllers.WeaponController.AddWeapon(RPG_Smartify.DTO.Weapon.AddWeaponDTO)">
+            <summary>
+            Add a weapon by character
+            </summary>
+            <param name="weapon"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

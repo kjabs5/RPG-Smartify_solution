@@ -8,19 +8,29 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace RPG_Smartify.Controllers
-{
+{/// <summary>
+/// 
+/// </summary>
     [Authorize]
     [ApiController]
     [Route("[Controller]")]
     public class CharacterSkillController : ControllerBase
     {
         private readonly ICharacterSkillRepo icservice;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="icservice"></param>
         public CharacterSkillController(ICharacterSkillRepo icservice)
         {
             this.icservice = icservice;
         }
 
+        /// <summary>
+        /// add skills to a character
+        /// </summary>
+        /// <param name="characterskillDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddCharacterSkill(characterskillDTO characterskillDTO)
         {
