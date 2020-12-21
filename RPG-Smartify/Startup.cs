@@ -1,14 +1,24 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using RPG_Smartify.Data;
+using RPG_Smartify.Service.CharacterService;
+using RPG_Smartify.Service.CharacterSkill;
+using RPG_Smartify.Service.WeaponService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RPG_Smartify
@@ -25,7 +35,34 @@ namespace RPG_Smartify
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RPGdbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddControllers();
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<ICharacterService, CharacterService>();
+
+            services.AddScoped<IAuthRepository, AuthRepository>();
+
+            services.AddScoped<IWeaponRepo, WeaponService>();
+
+            services.AddScoped<ICharacterSkillRepo, CharacterSkillService>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+                AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey= new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer=false,
+                        ValidateAudience=false
+
+                };
+                });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +76,8 @@ namespace RPG_Smartify
            // app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
