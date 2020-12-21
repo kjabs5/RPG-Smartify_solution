@@ -72,5 +72,6 @@ namespace RPG_Smartify.Controllers
             return Ok(result);
 
         }
+     
     }
 }

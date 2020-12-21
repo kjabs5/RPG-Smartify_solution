@@ -40,37 +40,38 @@ namespace RPG_Smartify
         {
             services.AddCors();
             services.AddDbContext<RPGdbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddSwaggerGen(options =>
+            if(Configuration.GetSection("Environment:env").Value.Equals("Development"))
             {
-                options.SwaggerDoc("RPGV1",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title = "RPG API DOC",
-                        Version = "1",
-                        Description = "Documenting the API for RPG",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact()
-                        {
-                            Email="Kishor.jabegu5@gmail.com",
-                            Name="Kishor Jabegu",
-                            Url=new Uri("https://www.kjabs5.com")
-                        }
-                    }) ;
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                services.AddSwaggerGen(options =>
                 {
-                    Description = "JWT Authorization header using the Bearer scheme."+
-                    "Enter 'Bearer' and then the token"+
-                    "Example = Bearer 123tokenXYZ...",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                  
-                   
-                   
-                });
+                    options.SwaggerDoc("RPGV1",
+                        new Microsoft.OpenApi.Models.OpenApiInfo()
+                        {
+                            Title = "RPG API DOC",
+                            Version = "1",
+                            Description = "Documenting the API for RPG",
+                            Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                            {
+                                Email = "Kishor.jabegu5@gmail.com",
+                                Name = "Kishor Jabegu",
+                                Url = new Uri("https://www.kjabs5.com")
+                            }
+                        });
+                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme." +
+                        "Enter 'Bearer' and then the token" +
+                        "Example = Bearer 123tokenXYZ...",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+
+                    });
+
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                           new OpenApiSecurityScheme
@@ -85,11 +86,13 @@ namespace RPG_Smartify
 
                     }
                 });
-                var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var commentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
-                options.IncludeXmlComments(commentsFullPath);
+                    var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var commentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
+                    options.IncludeXmlComments(commentsFullPath);
 
-            });
+                });
+            }
+          
 
             services.AddControllers();
 
@@ -125,16 +128,22 @@ namespace RPG_Smartify
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("swagger/RPGV1/swagger.json", "RPG Web API");
+                    options.RoutePrefix = "";
+
+                });
+            }
+            if (env.IsProduction())
+            {
+                app.UseDeveloperExceptionPage();
+               
             }
 
            app.UseHttpsRedirection();
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("swagger/RPGV1/swagger.json","RPG Web API");
-                options.RoutePrefix="";
-
-            });
+           
             app.UseRouting();
 
             app.UseCors(x=>x.AllowAnyOrigin()
