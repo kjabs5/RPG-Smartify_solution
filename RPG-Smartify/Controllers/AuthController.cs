@@ -16,6 +16,8 @@ namespace RPG_Smartify.Controllers
     [Route("[Controller]")]
     public class AuthController : ControllerBase
     {
+
+        //dependency injection
         private readonly IAuthRepository irepo;
 
         /// <summary>
